@@ -1,0 +1,723 @@
+14/08/26, 2:17 pm - Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them. *Learn more*
+14/08/26, 2:17 pm - ~ Bhatia created group "Vastu project"
+14/08/26, 2:17 pm - ~ Bhatia added you
+14/08/26, 2:17 pm - +91 97118 55879: PROJECT STATUS & REMAINING DEVELOPMENT REQUIREMENTS – ZEN VASTU
+Hi, I want to clearly explain the current status of the Zen Vastu website so you can continue development from the existing work instead of rebuilding everything from scratch.
+1. CURRENT WEBSITE / DESIGN
+The basic website design and frontend structure has already been created in Lovable.
+The existing visual design should be preserved:
+Zen Vastu branding
+Cream/off-white background
+Dark green elements
+Gold/beige accents
+Premium, elegant Vastu/spiritual aesthetic
+Responsive mobile + desktop design
+Existing homepage and other frontend sections should not be unnecessarily redesigned.
+Please first inspect the existing project and continue from the current code/database.
+2. SUPABASE / BACKEND – ALREADY DONE
+Supabase/Lovable Cloud backend has already been connected.
+The following backend foundation has been created:
+Authentication
+Email/password signup
+Email/password login
+Logout
+Authentication session handling
+Protected authenticated routes
+Customer account page
+Google authentication structure has been prepared, but Google provider is NOT fully configured yet.
+Database tables already created
+The database currently contains:
+profiles
+user_roles
+product_categories
+products
+addresses
+orders
+order_items
+payments
+consultations
+contact_enquiries
+blog_posts
+testimonials
+Relational links and Row Level Security policies have already been created.
+Customers should only be able to access their own:
+Profile
+Addresses
+Orders
+Order items
+Payments
+Consultations
+Public users can access appropriate public content such as:
+Products
+Categories
+Published journal/blog posts
+Approved testimonials
+No secret API keys should ever be exposed in frontend code.
+3. CUSTOMER LOGIN / ACCOUNT SYSTEM – PARTIALLY COMPLETE
+The /auth page has been created.
+The /account customer dashboard has also been created.
+It is designed to show:
+Customer profile
+Saved addresses
+Previous orders
+Order items
+Payment status
+Consultation requests
+Logout
+The customer should be able to return to the website later, log in again and see their previous information/orders.
+Still required:
+Properly connect the header Account/Login button.
+Show "Login / My Account" depending on authentication state.
+Add logout option.
+Make sure mobile menu also contains the correct account/login state.
+Test session persistence.
+Test login → account → logout → login again.
+Make sure one customer can NEVER see another customer's data.
+4. PRODUCTS – PARTIALLY COMPLETE
+Product database and categories already exist.
+Starter content has already been added:
+3 product categories
+6 products
+Still required:
+Make the Products page completely database-driven.
+Products should be loaded from Supabase instead of hardcoded placeholders.
+Create proper product detail pages:
+/products/[slug]
+Each product should have:
+Product image
+Product name
+Description
+Price
+Category
+Product details
+Add to cart / Buy Now
+WhatsApp enquiry option if required
+Proper mobile responsive layout
+The current placeholder product cards should be replaced with real database-driven products.
+5. SHOPPING CART / CHECKOUT
+This is an important remaining part.
+We need a proper e-commerce flow:
+Product → Add to Cart → Cart → Checkout → Customer Details → Address → Payment → Order Confirmation.
+Cart should support:
+Add product
+Remove product
+Increase/decrease quantity
+Product subtotal
+Total amount
+Checkout button
+Login requirement where appropriate
+Address selection/add new address
+Order creation
+The order should be stored in Supabase.
+6. PAYMENT GATEWAY – NOT COMPLETED YET
+This is NOT currently completed.
+The payments table exists, but actual payment gateway integration is still required.
+We need to integrate Razorpay.
+The client will provide the Razorpay account and complete the required KYC/business verification on Razorpay.
+Developer needs to implement the technical integration using secure server-side/Edge Function logic.
+Required payment flow:
+Customer selects product
+↓
+Checkout
+↓
+Order created/pending
+↓
+Razorpay checkout opens
+↓
+Customer can pay using available Razorpay-supported methods such as:
+UPI
+Google Pay where available through UPI
+PhonePe where available through UPI
+Debit Card
+Credit Card
+Net Banking
+Other Razorpay-supported methods
+↓
+Payment verification
+↓
+Order payment status updated
+↓
+Payment record saved
+↓
+Customer receives successful order confirmation.
+IMPORTANT:
+Do not put Razorpay secret keys in frontend code.
+Use secure backend/server-side/Edge Function implementation.
+Also handle:
+Successful payment
+Failed payment
+Cancelled payment
+Payment verification
+Duplicate payment protection
+Order/payment status consistency
+7. ORDERS
+The existing orders and order_items tables should be properly connected to the checkout system.
+Every successful order should contain:
+Order ID
+Customer
+Products
+Quantity
+Price
+Total amount
+Address
+Order date
+Payment status
+Order status
+Payment ID/reference where appropriate
+Customer should be able to see previous orders from /account.
+8. CONSULTATION FORM
+The consultation functionality is NOT fully wired yet.
+It needs to be connected to Supabase.
+If customer is logged in:
+Consultation form → consultations table.
+If customer is NOT logged in:
+Consultation/contact enquiry → contact_enquiries.
+Need to include:
+Loading state
+Success message
+Error message
+Duplicate-submit protection
+Form validation
+After submission, user should clearly know that the request has been successfully submitted.
+9. CONTACT FORM
+The contact form also needs proper database integration.
+When a visitor submits the form:
+Name
+Email
+Phone
+Message
+etc.
+→ Save to contact_enquiries.
+Need:
+Validation
+Loading state
+Success message
+Error handling
+Duplicate submission prevention
+10. JOURNAL / BLOG
+The database already contains blog_posts.
+Need to make the Journal page database-driven.
+Create:
+/journal/[slug]
+Each post should have:
+Title
+Featured image
+Date
+Category if applicable
+Content
+SEO-friendly URL/slug
+Related posts if appropriate
+The existing placeholder journal content should be connected to Supabase.
+11. TESTIMONIALS
+The testimonials table already exists.
+Homepage testimonials should be loaded from the database.
+Only approved testimonials should appear publicly.
+Remove static placeholder testimonials and use database content.
+12. ADMIN PANEL – REQUIRED
+This is an important part of the project.
+We need a secure admin area where the website owner can manage the website without editing code.
+Admin should be able to:
+Products
+Add product
+Edit product
+Delete product
+Upload/change product image
+Change price
+Change description
+Assign category
+Publish/unpublish product
+Categories
+Add/edit/delete categories
+Orders
+Admin should be able to see:
+All orders
+Customer details
+Products purchased
+Order amount
+Payment status
+Order status
+Date
+Payment reference
+Customers
+Admin should be able to view customer information appropriately.
+Consultations
+Admin should see consultation requests.
+Contact enquiries
+Admin should see contact submissions.
+Journal
+Admin should be able to:
+Add post
+Edit post
+Delete post
+Publish/unpublish
+Testimonials
+Admin should be able to:
+Add testimonial
+Edit testimonial
+Approve/unapprove testimonial
+Delete testimonial
+IMPORTANT:
+Admin access must be controlled through the existing user_roles system.
+A normal customer must NEVER be able to access admin functionality simply by changing a URL.
+13. GOOGLE LOGIN
+Currently email/password authentication is active.
+Google sign-in has been prepared but the Google provider is not configured yet.
+Need to configure Google OAuth properly after obtaining the required Google credentials.
+Test:
+Google Login → Supabase → User profile → Account dashboard.
+14. SECURITY
+Before launch, please perform a complete security review.
+Check:
+Supabase RLS policies
+Customer data isolation
+Admin authorization
+Payment security
+Razorpay secret protection
+No API secrets in frontend
+Authentication/session handling
+Order manipulation protection
+Price manipulation protection
+Duplicate payment/order protection
+Form spam/duplicate submission protection
+Never trust product price or order total coming directly from the browser. The server/backend should validate the actual product price before creating the final order/payment.
+15. RESPONSIVE DESIGN
+The website must work properly on:
+Android mobile
+iPhone
+Tablet
+Desktop
+Large screens
+Please specifically test:
+Header
+Mobile hamburger menu
+Account button
+Product cards
+Product detail
+Cart
+Checkout
+Razorpay checkout
+Account dashboard
+Forms
+Admin dashboard
+Also fix the existing issue where the mobile menu/toggle overlaps other elements or hides icons/content.
+16. SEO
+After functionality is complete:
+Implement proper:
+Page titles
+Meta descriptions
+H1/H2 hierarchy
+Image alt text
+Canonical URLs
+Open Graph metadata
+Product structured data
+Article structured data
+Organization/website structured data where appropriate
+SEO-friendly product/blog URLs
+Sitemap
+Robots.txt
+17. FINAL TESTING
+Before considering the project complete, test the complete customer journey:
+Customer Journey
+Homepage
+→ Products
+→ Product Detail
+→ Add to Cart
+→ Checkout
+→ Login/Register
+→ Address
+→ Razorpay
+→ Payment
+→ Order Confirmation
+→ My Account
+→ Previous Orders
+Also test:
+Payment success
+Payment failure
+Payment cancellation
+Logout
+Login again
+Previous order visibility
+Mobile responsiveness.
+CURRENT STATUS SUMMARY
+Already completed / substantially completed:
+✅ Basic website frontend/design
+✅ Supabase/Lovable Cloud backend connection
+✅ Authentication foundation
+✅ Email/password signup/login
+✅ Customer profile system
+✅ Database structure
+✅ Products database
+✅ Product categories
+✅ Orders database
+✅ Order items database
+✅ Payments database structure
+✅ Addresses database
+✅ Consultations database structure
+✅ Contact enquiries database
+✅ Journal/blog database
+✅ Testimonials database
+✅ Row Level Security foundation
+✅ Customer account/dashboard foundation
+✅ Protected routes
+✅ Starter products/categories/blog/testimonials data
+Still pending / needs completion:
+🔴 Header Login/My Account integration
+🔴 Mobile account/logout integration
+🔴 Google OAuth configuration
+🔴 Consultation form database integration
+🔴 Contact form database integration
+🔴 Database-driven Products page
+🔴 Product detail pages
+🔴 Shopping cart
+🔴 Checkout system
+🔴 Complete order creation flow
+🔴 Razorpay payment gateway integration
+🔴 Payment verification
+🔴 Payment success/failure handling
+🔴 Customer order history completion
+🔴 Database-driven Journal page
+🔴 Journal detail pages
+🔴 Database-driven testimonials
+🔴 Complete Admin Dashboard
+🔴 Product management from Admin
+🔴 Order management from Admin
+🔴 Customer/consultation/enquiry management
+🔴 Journal management
+🔴 Testimonial management
+🔴 Final security audit
+🔴 SEO implementation
+🔴 Complete responsive testing
+🔴 Final production testing
+VERY IMPORTANT FOR DEVELOPMENT
+14/08/26, 2:28 pm - +91 93054 08166: Hlo
+14/08/26, 2:29 pm - +91 97118 55879: We are in a meeting right now
+14/08/26, 2:30 pm - +91 93054 08166: Hlo mr rohit... This is the part has been completed now..
+14/08/26, 2:30 pm - +91 93054 08166: But you also please check..
+14/08/26, 2:30 pm - +91 93054 08166: https://zen-vastu-harmony.lovable.app
+14/08/26, 2:30 pm - +91 93054 08166: This is the website
+14/08/26, 2:30 pm - +91 93054 08166: <Media omitted>
+14/08/26, 2:31 pm - +91 93054 08166: This is the structure and details of the website
+14/08/26, 2:31 pm - +91 93054 08166: <Media omitted>
+ZEN VASTU.docx
+14/08/26, 2:33 pm - +91 93054 08166: So this is the little information we got from the clients.. They don't have proper content about it.. So we have to research and analyse and later on may be show to client about their opinion <This message was edited>
+14/08/26, 3:05 pm - coderrohit2927: I think the client might not be happy with the UI either, and the backend hasn't been touched yet. If iam right ,Let me draft a proper plan with all the features and send it to you by tomorrow.
+14/08/26, 3:46 pm - +91 93054 08166: Ok.. Yeah go with it.. U do accordingly with your expertise..
+14/08/26, 3:59 pm - +91 93054 08166: Red 
+Blue 
+White
+Brown and greeen
+14/08/26, 3:59 pm - +91 93054 08166: These are the colors that will be used in website 
+5 elements colour
+14/08/26, 10:49 pm - +91 93054 08166: Hlo everyone
+14/08/26, 10:49 pm - +91 93054 08166: Can we have meeting tomorrow for the same..?
+15/08/26, 2:19 pm - +91 93054 08166: Hoo
+15/08/26, 2:19 pm - +91 93054 08166: Hlo
+15/08/26, 3:04 pm - coderrohit2927: 
+15/08/26, 3:04 pm - coderrohit2927: IMG-20260815-WA0004.jpg (file attached)
+Check ui we will be making this kind of
+15/08/26, 3:04 pm - coderrohit2927: IMG-20260815-WA0005.jpg (file attached)
+15/08/26, 3:04 pm - coderrohit2927: IMG-20260815-WA0006.jpg (file attached)
+15/08/26, 3:04 pm - coderrohit2927: And backend will be in supabase
+15/08/26, 3:04 pm - coderrohit2927: For meeting u can schedule it at night
+15/08/26, 3:04 pm - coderrohit2927: Or Tommorow
+15/08/26, 3:30 pm - +91 93054 08166: First meeting we can have today at night with all of us 3 .. And tomorrow we will be there with client..
+15/08/26, 3:31 pm - +91 93054 08166: I will schedule for a meeting tomorrow with client and also there they will explain about the other project which is ios mobile application which I was talking about.. <This message was edited>
+15/08/26, 3:32 pm - +91 93054 08166: Today can we have a call around 9 pm at night.??
+15/08/26, 3:32 pm - +91 93054 08166: Ok...
+15/08/26, 3:33 pm - +91 93054 08166: Red 
+Blue 
+White
+Brown and greeen
+
+These are the colors that will be used in website 
+5 elements colour
+16/08/26, 1:05 pm - +91 93054 08166: Hlo..
+16/08/26, 1:05 pm - +91 93054 08166: Can we have meeting today about the project??
+16/08/26, 1:25 pm - +91 97118 55879: This message was deleted
+16/08/26, 1:26 pm - +91 97118 55879: We are working on another project
+16/08/26, 1:26 pm - +91 97118 55879: Give me some time
+16/08/26, 1:53 pm - +91 93054 08166: Ok..
+17/08/26, 3:59 pm - +91 93054 08166: Hlo
+17/08/26, 4:00 pm - +91 93054 08166: Can we do meeting today..?
+17/08/26, 6:10 pm - coderrohit2927: im free right now
+17/08/26, 6:10 pm - coderrohit2927: u can schedule
+17/08/26, 6:11 pm - +91 93054 08166: Can we meet 9 pm..
+17/08/26, 6:11 pm - +91 93054 08166: ?
+17/08/26, 6:11 pm - +91 93054 08166: Or now..??
+17/08/26, 6:11 pm - coderrohit2927: @⁨~Bhatia⁩
+17/08/26, 6:12 pm - coderrohit2927: iam free right now if u can do right now u can
+17/08/26, 6:21 pm - +91 97118 55879: Yes
+17/08/26, 6:21 pm - +91 97118 55879: Call me whenever you want to start
+17/08/26, 6:22 pm - +91 97118 55879: PTT-20260817-WA0004.opus (file attached)
+17/08/26, 6:23 pm - +91 97118 55879: Link ?
+17/08/26, 6:28 pm - coderrohit2927: https://meet.google.com/xzp-ftbm-rce
+17/08/26, 6:29 pm - +91 93054 08166: Abhi join kre hm log..??
+17/08/26, 6:29 pm - coderrohit2927: Hn
+17/08/26, 6:29 pm - coderrohit2927: @⁨~Bhatia⁩ sir join
+17/08/26, 6:31 pm - +91 93054 08166: Hlo bheem ji...
+17/08/26, 6:31 pm - +91 93054 08166: Join the meeting..
+18/08/26, 4:55 pm - +91 93054 08166: Hlo rohit ji..
+18/08/26, 4:55 pm - +91 93054 08166: Aaj raat tk mai aapko rozerpay Or email send krta hoon..
+18/08/26, 4:56 pm - +91 93054 08166: And content and images also
+18/08/26, 4:56 pm - +91 93054 08166: Till then aap frontend tk dekh lena
+18/08/26, 4:57 pm - coderrohit2927: Hnji sure
+18/08/26, 9:26 pm - +91 93054 08166: IMG-20260818-WA0017.jpg (file attached)
+18/08/26, 9:26 pm - +91 93054 08166: Illuminated Crystal — The Light Within
+
+A Symbol of Clarity, Intuition & Inner Awareness
+
+A beautiful interplay of crystal, light, and intention, this illuminated crystal creates a captivating focal point for spaces dedicated to meditation, reflection, relaxation, and spiritual practice.
+
+Its luminous purple radiance is traditionally associated with intuition, inner wisdom, tranquillity, and higher awareness — offering a visual reminder to turn inward and reconnect with our own sense of clarity.
+
+The Symbolism of Light
+
+Purple Light — Intuition, awareness & inner wisdom
+Crystal — Clarity, focus & conscious intention
+Light — Illumination, transformation & awakening
+Natural Form — Grounding, harmony & connection with nature
+
+Placed in a meditation corner, healing space, spiritual centre, or simply a quiet corner of the home, it can become more than an illuminating object — it becomes a symbolic reminder of the light that already exists within us.
+
+Illuminate Your Inner Space
+
+Sometimes, creating peace is not about adding more to our surroundings, but about creating a space that allows us to pause, breathe, and become aware.
+
+“When the inner light awakens, darkness does not need to be removed — it simply fades.”
+
+Peace • Clarity • Intuition • Meditation • Inner Light
+18/08/26, 9:26 pm - +91 93054 08166: IMG-20260818-WA0018.jpg (file attached)
+Kuber — The Guardian of Abundance
+
+Where Prosperity Begins with Balance
+
+In the ancient wisdom of Vastu Shastra, Kuber is revered as the guardian of wealth and abundance. Yet, his significance extends far beyond material prosperity. Kuber represents the deeper essence of abundance — a harmonious balance of wealth, wisdom, gratitude, integrity, and generosity.
+
+True prosperity is not simply about acquiring more; it is about creating the right environment to receive, nurture, and sustain abundance in our lives.
+
+The North — The Vastu Zone of Prosperity
+
+According to traditional Vastu principles, the North direction is associated with Lord Kuber and is considered significant for the movement and flow of wealth and opportunities.
+
+A balanced and thoughtfully maintained North zone is therefore given special importance in wealth-related Vastu practices. When the energy of this space is aligned, it is traditionally believed to support financial growth, opportunities, clarity, and a healthy flow of abundance.
+
+Invite Abundance. Create Balance.
+
+Kuber's wisdom reminds us that prosperity flourishes where there is clarity in thought, integrity in action, gratitude in the heart, and generosity in spirit.
+
+Let your space become a reflection of the abundance you wish to welcome.
+18/08/26, 9:27 pm - +91 93054 08166: IMG-20260818-WA0019.jpg (file attached)
+Cash Box — A Symbol of Financial Consciousness
+
+Where Wealth Meets Responsibility
+
+A cash box is more than a place to store money. It represents our relationship with wealth — built on responsibility, trust, discipline, and integrity.
+
+In Vastu-inspired spaces, the cash box can serve as a symbolic reminder to respect, preserve, and consciously manage the prosperity we receive. Keeping it clean, organised, and thoughtfully placed reflects an attitude of clarity and financial discipline.
+
+Crafted to Welcome Prosperity
+
+Traditionally crafted from auspicious wood associated with prosperity, this special cash box brings together the symbolism of abundance with the timeless wisdom of Vastu.
+
+It is not merely an object of storage — it becomes a symbolic space for preserving wealth, honouring abundance, and nurturing a prosperous mindset.
+
+Preserve Wealth. Honour Abundance.
+
+When prosperity is valued with gratitude and responsibility, abundance becomes more meaningful.
+18/08/26, 9:28 pm - +91 93054 08166: IMG-20260818-WA0020.jpg (file attached)
+18/08/26, 9:28 pm - +91 93054 08166: Crystal Wheel — The Geometry of Abundance
+
+A Symbol of Balanced Energy & Prosperity
+
+The Crystal Wheel is a powerful symbolic representation of abundance, prosperity, clarity, and harmonious energy.
+
+At its centre, the crystal sphere represents wholeness, clarity, and the source of energy. Surrounding it, seven carefully placed crystals symbolise the balanced movement of energy across the different dimensions of life.
+
+Together, they create a visual reminder that true prosperity is multidimensional. It is not measured by wealth alone, but by the richness of our health, relationships, opportunities, inner peace, wisdom, and our ability to give.
+
+The Wisdom of the Energy Wheel
+
+The Crystal Wheel invites us to cultivate a conscious relationship with abundance:
+
+Receive with openness.
+Create with integrity.
+Preserve with wisdom.
+Share with generosity.
+Appreciate with gratitude.
+
+When the energies of receiving and giving find balance, prosperity becomes more than something we possess — it becomes an energy we consciously nurture and allow to flow.
+
+A Reminder of Complete Prosperity
+
+Abundance flourishes when the mind is clear, the heart is grateful, and energy remains in harmony.
+
+“When receiving and giving are in balance, abundance flows with greater ease.”
+18/08/26, 9:29 pm - +91 93054 08166: IMG-20260818-WA0021.jpg (file attached)
+Crystal Pyramid — The Power of Sacred Geometry
+
+Where Intention Meets Energy
+
+The Crystal Pyramid with Shri Yantra brings together sacred geometry, crystal energy, and the symbolism of the pyramid to represent harmony, clarity, prosperity, and spiritual growth.
+
+At its heart lies the Shri Yantra, an ancient sacred geometric form symbolising the divine union of Shiva and Shakti — the balance of complementary cosmic energies and the interconnectedness of creation.
+
+Enclosed within the pyramid, the Yantra becomes a powerful visual focus for clarity of intention, inner balance, abundance, and conscious growth.
+
+The Symbolism Within
+
+Shri Yantra — Divine harmony, abundance & balance
+Pyramid — Focus, stability & upward movement
+Crystal — Clarity, purity & amplification
+Earth Elements — Grounding, stability & connection
+
+Together, these elements represent a journey from grounded intention to focused energy and purposeful creation.
+
+Focus Your Intention. Elevate Your Energy.
+
+The Crystal Pyramid serves as a reminder that transformation begins within. When our intentions become clear and our energy becomes focused, we create greater alignment between thought, action, and purpose.
+
+“When intention becomes clear, energy finds direction; and when energy finds direction, creation begins.”
+18/08/26, 9:29 pm - +91 93054 08166: IMG-20260818-WA0022.jpg (file attached)
+Shankh — The Sacred Sound of Purity
+
+A Vibration That Awakens & Harmonises
+
+The Shankh (Conch) is revered as a sacred symbol of purity, auspiciousness, protection, and divine abundance. Its powerful resonance is traditionally believed to purify the atmosphere and invite a sense of harmony into the space.
+
+Its distinctive spiral form carries a deeper symbolism — representing the journey of consciousness from the outer world towards the inner self, from movement towards stillness, and from sound towards silence.
+
+The Sacred Resonance of the Shankh
+
+Traditionally associated with Lord Vishnu, the Shankh holds a significant place in Hindu spiritual practices. Its sacred sound is used during पूजा and rituals to mark the beginning of an auspicious moment, create a sanctified atmosphere, and invoke positive vibrations.
+
+Beyond its ritual significance, the Shankh serves as a beautiful reminder that sound, intention, and consciousness can transform the experience of a space.
+
+Awaken the Sacred Within
+
+The resonance of the Shankh symbolises a return to balance — helping us pause, centre ourselves, and reconnect with the divine presence within.
+
+May its sacred vibration purify the space, calm the mind, and awaken an atmosphere of peace, positivity, and spiritual harmony.
+18/08/26, 9:30 pm - +91 93054 08166: IMG-20260818-WA0023.jpg (file attached)
+Dhoop — The Purifying Essence of Tradition
+
+Cleanse the Space. Elevate the Atmosphere.
+
+Rooted in traditional Indian practices, Dhoop has long been used to create a sacred and harmonious atmosphere within the home.
+
+Crafted using cow dung along with Himalayan herbs and natural spices, this traditional formulation represents the timeless connection between nature, ritual, and conscious living.
+
+When gently burned, its fragrant smoke transforms the ambience, making it an integral part of spiritual rituals and traditional space-cleansing practices.
+
+A Ritual of Purification
+
+More than a fragrance, Dhoop invites a moment of pause, presence, and renewal.
+
+Its use is traditionally associated with:
+
+Purification — Refreshing the atmosphere of the space
+Harmony — Creating a calm and sacred ambience
+Tradition — Preserving an age-old Indian ritual
+Connection — Bringing natural elements into everyday spaces
+
+Let Tradition Set the Energy
+
+From the richness of the earth to the healing traditions of the Himalayas, every element carries a story of nature and heritage.
+
+Light the Dhoop. Clear the atmosphere. Create a space that feels sacred.
+18/08/26, 9:30 pm - +91 93054 08166: IMG-20260818-WA0024.jpg (file attached)
+18/08/26, 9:30 pm - +91 93054 08166: Shiva Lingam & Rudraksha — Stillness, Strength & Awakening
+
+The Essence of Shiva Within
+
+The Shiva Lingam represents the timeless essence of pure consciousness — a symbol of stillness, creation, transformation, and the eternal rhythm of existence.
+
+Associated with Lord Shiva, it reminds us that beneath the movement of life lies a deeper state of awareness — calm, centred, and eternal.
+
+The Rudraksha, revered as sacred to Shiva, symbolises spiritual strength, protection, inner balance, and awakened awareness. Together, the Shiva Lingam and Rudraksha create a powerful representation of the journey inward — from stillness to awareness, and from awareness to transformation.
+
+A Reminder to Return Within
+
+Be still like Shiva.
+Be aware like Rudraksha.
+Let inner awareness transform your outer world.
+
+Together, they invite us to cultivate a space where the mind can find peace, the heart can find strength, and the spirit can reconnect with its deeper purpose.
+
+May the grace of Mahadev bring serenity to the mind, strength to the heart, protection to the energy, and awakening to the soul.
+18/08/26, 9:30 pm - +91 93054 08166: Gomti Chakra Tree — The Growth of Abundance
+
+A Symbol of Prosperity, Protection & Positive Energy
+
+The Gomti Chakra Tree beautifully combines the symbolism of nature with the auspicious energy traditionally associated with Gomti Chakras.
+
+Naturally occurring spiral-shaped shells, Gomti Chakras are traditionally associated with Lord Vishnu and Goddess Lakshmi. Their distinctive spiral is regarded as a symbol of the divine Chakra and the continuous movement of cosmic energy.
+
+Arranged in the form of a flourishing tree, these sacred elements create a powerful metaphor for growth, stability, prosperity, and abundance.
+
+The Symbolism of the Tree
+
+Gomti Chakra — Auspiciousness, protection & prosperity
+Tree — Growth, grounding & expansion
+Spiral — Evolution, movement & continuous flow
+Arrangement — Harmony, intention & balance
+
+Just as a tree draws strength from its roots while continually reaching towards the light, the Gomti Chakra Tree symbolises the journey from grounded stability to expanded abundance.
+
+Traditionally placed in homes, offices, and sacred spaces, it is cherished as an auspicious symbol with the intention of inviting prosperity, harmony, positive energy, and protection.
+
+Let Your Intentions Take Root
+
+“Just as a tree grows from a single seed into abundance, may every positive intention in life take root, flourish, and reach its fullest expression.”
+18/08/26, 9:31 pm - +91 93054 08166: IMG-20260818-WA0025.jpg (file attached)
+18/08/26, 9:31 pm - +91 93054 08166: Seven Chakras — The Energy Within & Around Us
+
+From Grounding to Awakening
+
+The Seven Chakras represent subtle energy centres traditionally associated with different dimensions of our physical, emotional, mental, and spiritual experience.
+
+Beginning with the Root Chakra and rising towards the Crown Chakra, this journey symbolises an evolution from grounding and stability to awareness, intuition, and higher consciousness.
+
+The Sevenfold Journey
+
+Each chakra carries its own symbolism and represents a different quality of human experience — from our sense of security and belonging to our ability to love, express, understand, and connect with something greater than ourselves.
+
+Just as the human system is influenced by energy and balance, our surroundings also shape how we feel, experience, and interact with the spaces we inhabit.
+
+Every Home Has an Energy Story
+
+A home is more than walls, rooms, and objects. It is a living environment where thoughts, emotions, relationships, and intentions come together.
+
+In Vastu and energy-conscious practices, creating harmony within a space is seen as a way of supporting a more balanced, peaceful, and uplifting experience of living.
+
+The Seven Chakras offer a beautiful symbolic framework for this journey — reminding us to create spaces that support not only material comfort, but also emotional harmony and inner growth.
+
+From Space to Self
+
+Root — Grounding & Stability
+Sacral — Creativity & Flow
+Solar Plexus — Confidence & Purpose
+Heart — Love & Compassion
+Throat — Expression & Truth
+Third Eye — Intuition & Awareness
+Crown — Consciousness & Connection
+
+When the energy within is balanced and the space around us feels harmonious, we create an environment where we can pause, grow, and awaken.
+18/08/26, 9:32 pm - +91 93054 08166: IMG-20260818-WA0026.jpg (file attached)
+18/08/26, 9:32 pm - +91 93054 08166: IMG-20260818-WA0027.jpg (file attached)
+18/08/26, 9:34 pm - +91 93054 08166: Hlo.. Rohit ji.. This the content for particular images... All these only from client side..
+18/08/26, 9:34 pm - +91 93054 08166: We have to fix this accordingly on website
+18/08/26, 9:34 pm - +91 93054 08166: Now abhi mai rozarpay Or mail bhi send krta hoon
+20/08/26, 12:18 pm - +91 93054 08166: Hlo
+20/08/26, 12:32 pm - +91 93054 08166: Rohit ji..
+20/08/26, 12:33 pm - +91 93054 08166: Achualy client abhi 4-5 din k liye travel pr hai.. So they will not able to give rozerpay and email for website.. After 5 days we can continue on this process..
+20/08/26, 12:35 pm - +91 93054 08166: Till then u plz  work on website according to your creativity and technicals aspects .. Only rozerpay and email would be pending
+20/08/26, 12:35 pm - +91 93054 08166: And also we can schedule a meeting for tomorrow with a client for frontend part and other projects for better understanding
+20/08/26, 12:36 pm - +91 93054 08166: Can we schedule for tomorrow??
+20/08/26, 12:43 pm - coderrohit2927: yeah sure
+20/08/26, 12:43 pm - coderrohit2927: i will show u frontend at night if possible
+20/08/26, 2:26 pm - +91 93054 08166: Yes.. We can schedule a meeting today at night  .. 9 pm.. Is ok for you..??
+20/08/26, 2:26 pm - +91 93054 08166: Tomorrow timing with client.. Let u know
+20/08/26, 10:45 pm - +91 93054 08166: Hlo
+20/08/26, 10:45 pm - +91 93054 08166: Can we meet now..?
+20/08/26, 10:45 pm - +91 93054 08166: About the website
+20/08/26, 10:45 pm - +91 93054 08166: ?
