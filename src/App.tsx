@@ -1,19 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Routes, Route, Navigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { DirectionCompass } from './components/DirectionCompass';
-import { FiveElements } from './components/FiveElements';
-import { ProductsSection } from './components/ProductsSection';
 import { ProductDetailModal } from './components/ProductDetailModal';
-import { ConsultationsSection } from './components/ConsultationsSection';
-import { MethodologySection } from './components/MethodologySection';
-import { JournalSection } from './components/JournalSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
-import { AboutSection } from './components/AboutSection';
-import { InfiniteMarquee } from './components/ui/InfiniteMarquee';
-import { InteractiveVastuScanner } from './components/ui/InteractiveVastuScanner';
 import { BookingModal } from './components/BookingModal';
 import { CartDrawer, type CartItem } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
@@ -23,8 +12,17 @@ import { type Product } from './data/vastuData';
 import { ShoppingBag, MessageCircle } from 'lucide-react';
 import { useCms } from './context/CmsProvider';
 
+import { HomePage } from './pages/HomePage';
+import { ConsultationsPage } from './pages/ConsultationsPage';
+import { ShopPage } from './pages/ShopPage';
+import { ElementsPage } from './pages/ElementsPage';
+import { ScannerPage } from './pages/ScannerPage';
+import { AboutPage } from './pages/AboutPage';
+import { JournalPage } from './pages/JournalPage';
+
 export default function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { waUrl, copy } = useCms();
 
   // Initialize Lenis Inertia-Based Smooth Scroll
@@ -50,6 +48,11 @@ export default function App() {
     };
   }, []);
 
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
+
   // Cart State
   const [cart, setCart] = useState<CartItem[]>([]);
 
@@ -63,9 +66,6 @@ export default function App() {
 
   // Placed Orders
   const [userOrders, setUserOrders] = useState<any[]>([]);
-
-  // Active Section for Navbar
-  const [activeSection, setActiveSection] = useState<string>('hero');
 
   // Handle Cart Operations
   const handleAddToCart = (product: Product, quantity: number = 1) => {
@@ -103,16 +103,43 @@ export default function App() {
     setCart([]);
   };
 
-  // Smooth Navigation
-  const handleNavigate = (sectionId: string) => {
-    setActiveSection(sectionId);
-    if (sectionId === 'hero') {
+  // Route & Anchor Navigation Helper
+  const handleNavigate = (pathOrSectionId: string) => {
+    const routeMap: Record<string, string> = {
+      hero: '/',
+      '/': '/',
+      consultations: '/consultations',
+      '/consultations': '/consultations',
+      products: '/shop',
+      '/shop': '/shop',
+      shop: '/shop',
+      elements: '/elements',
+      directions: '/elements',
+      '/elements': '/elements',
+      scanner: '/scanner',
+      '/scanner': '/scanner',
+      about: '/about',
+      method: '/about',
+      '/about': '/about',
+      journal: '/journal',
+      '/journal': '/journal',
+    };
+
+    const target = routeMap[pathOrSectionId] || pathOrSectionId;
+
+    if (target.startsWith('/')) {
+      navigate(target);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    const elem = document.getElementById(sectionId);
+
+    // Anchor on same page
+    const elem = document.getElementById(target);
     if (elem) {
       elem.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -132,54 +159,72 @@ export default function App() {
         onOpenBooking={() => handleOpenBooking()}
         onOpenAccount={() => setIsAccountOpen(true)}
         onOpenAdmin={() => navigate('/admin')}
-        activeSection={activeSection}
+        activeSection={location.pathname}
         onNavigate={handleNavigate}
       />
 
-      {/* Main Sanctuary Content */}
+      {/* Main Sanctuary Routes */}
       <main className="flex-grow">
-        {/* 1. Hero Section with 3D Category Bar & Three.js Sacred Mandala */}
-        <Hero
-          onOpenBooking={() => handleOpenBooking()}
-          onExploreDirections={() => handleNavigate('directions')}
-          onExploreProducts={() => handleNavigate('products')}
-        />
+        <Routes>
+          {/* 1. Streamlined Flagship Home Sanctuary */}
+          <Route
+            index
+            element={
+              <HomePage
+                onOpenBooking={handleOpenBooking}
+                onSelectProduct={(p) => setSelectedProduct(p)}
+                onAddToCart={(p) => handleAddToCart(p, 1)}
+                onNavigate={handleNavigate}
+              />
+            }
+          />
 
-        {/* Continuous Vedic & Global Trust Marquee */}
-        <InfiniteMarquee />
+          {/* 2. Dedicated Consultations & Space Audits Page */}
+          <Route
+            path="consultations"
+            element={<ConsultationsPage onOpenBooking={handleOpenBooking} />}
+          />
 
-        {/* 2. Interactive 8 Directions & Energy Zones */}
-        <DirectionCompass
-          onSelectProduct={(p) => setSelectedProduct(p)}
-          onAddToCart={(p) => handleAddToCart(p, 1)}
-        />
+          {/* 3. Dedicated Sacred Store E-Commerce Page */}
+          <Route
+            path="shop"
+            element={
+              <ShopPage
+                onSelectProduct={(p) => setSelectedProduct(p)}
+                onAddToCart={(p) => handleAddToCart(p, 1)}
+              />
+            }
+          />
 
-        {/* 3. The 5 Sacred Elements (Panchamahabhutas) */}
-        <FiveElements />
+          {/* 4. Dedicated 5 Elements & 8 Directions Principles Page */}
+          <Route
+            path="elements"
+            element={
+              <ElementsPage
+                onSelectProduct={(p) => setSelectedProduct(p)}
+                onAddToCart={(p) => handleAddToCart(p, 1)}
+              />
+            }
+          />
 
-        {/* 4. Real-Time Interactive Vastu Energy Scanner Widget */}
-        <InteractiveVastuScanner onOpenBooking={() => handleOpenBooking()} />
+          {/* 5. Dedicated Interactive Energy Compatibility Scanner */}
+          <Route
+            path="scanner"
+            element={<ScannerPage onOpenBooking={() => handleOpenBooking()} />}
+          />
 
-        {/* 5. The Sacred Remedial Collection (3D Tilt Cards) */}
-        <ProductsSection
-          onSelectProduct={(p) => setSelectedProduct(p)}
-          onAddToCart={(p) => handleAddToCart(p, 1)}
-        />
+          {/* 6. Dedicated About & Non-Demolition Methodology Page */}
+          <Route
+            path="about"
+            element={<AboutPage onOpenBooking={() => handleOpenBooking()} />}
+          />
 
-        {/* 5. Consultation Services Suite */}
-        <ConsultationsSection onOpenBooking={handleOpenBooking} />
+          {/* 7. Dedicated Sacred Wisdom Journal & Articles Page */}
+          <Route path="journal" element={<JournalPage />} />
 
-        {/* 6. The Zen 4-Stage Methodology & Non-Demolition Difference */}
-        <MethodologySection onOpenBooking={() => handleOpenBooking()} />
-
-        {/* 7. Sacred Wisdom Journal & Articles */}
-        <JournalSection />
-
-        {/* 8. About Zen Vastu & Non-Demolition Philosophy */}
-        <AboutSection onOpenBooking={() => handleOpenBooking()} />
-
-        {/* 9. Real Client Testimonials */}
-        <TestimonialsSection />
+          {/* Catch-all fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
 
       {/* Footer */}

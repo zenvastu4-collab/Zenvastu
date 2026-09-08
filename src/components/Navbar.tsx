@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X, User, Sparkles, MessageCircle, ShieldCheck } from 'lucide-react';
 import { useCms } from '../context/CmsProvider';
 import { BrandLogo } from './BrandLogo';
@@ -23,6 +24,7 @@ export function Navbar({
   onNavigate,
 }: NavbarProps) {
   const { copy, settings, navItems, waUrl } = useCms();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -33,6 +35,18 @@ export function Navbar({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const isItemActive = (sectionId: string) => {
+    const path = location.pathname;
+    if ((sectionId === 'hero' || sectionId === '/') && path === '/') return true;
+    if ((sectionId === 'consultations' || sectionId === '/consultations') && path === '/consultations') return true;
+    if ((sectionId === 'products' || sectionId === 'shop' || sectionId === '/shop') && path === '/shop') return true;
+    if ((sectionId === 'elements' || sectionId === 'directions' || sectionId === '/elements') && path === '/elements') return true;
+    if ((sectionId === 'about' || sectionId === 'method' || sectionId === '/about') && path === '/about') return true;
+    if ((sectionId === 'journal' || sectionId === '/journal') && path === '/journal') return true;
+    if ((sectionId === 'scanner' || sectionId === '/scanner') && path === '/scanner') return true;
+    return activeSection === sectionId;
+  };
 
   const handleNavClick = (id: string) => {
     onNavigate(id);
@@ -117,22 +131,25 @@ export function Navbar({
 
             {/* Desktop Navigation Links */}
             <nav className="hidden lg:flex items-center justify-center gap-5 xl:gap-7 flex-1 mx-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.section_id}
-                  onClick={() => handleNavClick(item.section_id)}
-                  className={`text-[13px] font-sans tracking-wide whitespace-nowrap transition-all py-1.5 relative group ${
-                    activeSection === item.section_id
-                      ? 'text-[#1B382B] font-semibold after:content-[""] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
-                      : 'text-vastu-muted hover:text-[#1B382B]'
-                  }`}
-                >
-                  <span>{item.label}</span>
-                    {activeSection !== item.section_id && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#C5A059]/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
-                  )}
-                </button>
-              ))}
+              {navItems.map((item) => {
+                const active = isItemActive(item.section_id);
+                return (
+                  <button
+                    key={item.section_id}
+                    onClick={() => handleNavClick(item.section_id)}
+                    className={`text-[13px] font-sans tracking-wide whitespace-nowrap transition-all py-1.5 relative group ${
+                      active
+                        ? 'text-[#1B382B] font-semibold after:content-[""] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
+                        : 'text-vastu-muted hover:text-[#1B382B]'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    {!active && (
+                      <span className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#C5A059]/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
+                    )}
+                  </button>
+                );
+              })}
             </nav>
 
             {/* Right Action Icons & Booking CTA */}
@@ -184,19 +201,22 @@ export function Navbar({
         {mobileMenuOpen && (
           <div className="lg:hidden bg-[#FAF7F2] border-b border-[#DED7C9] px-6 py-6 space-y-4 shadow-xl animate-fadeIn">
             <div className="flex flex-col space-y-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.section_id}
-                  onClick={() => handleNavClick(item.section_id)}
-                  className={`text-left text-sm uppercase tracking-wider font-sans py-2.5 px-3 rounded transition-colors ${
-                    activeSection === item.section_id
-                      ? 'bg-vastu-cream text-vastu-forest font-bold'
-                      : 'text-vastu-muted hover:text-vastu-forest'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navItems.map((item) => {
+                const active = isItemActive(item.section_id);
+                return (
+                  <button
+                    key={item.section_id}
+                    onClick={() => handleNavClick(item.section_id)}
+                    className={`text-left text-sm uppercase tracking-wider font-sans py-2.5 px-3 rounded transition-colors ${
+                      active
+                        ? 'bg-vastu-cream text-vastu-forest font-bold'
+                        : 'text-vastu-muted hover:text-vastu-forest'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="pt-4 border-t border-[#DED7C9] flex flex-col gap-3">

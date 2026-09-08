@@ -56,14 +56,13 @@ export const SITE_COPY_DEFAULTS: SiteCopyRow[] = [
 ];
 
 export const DEFAULT_NAV = [
-  { label: 'Home', section_id: 'hero', sort_order: 1, visible: true },
-  { label: 'Consultations', section_id: 'consultations', sort_order: 2, visible: true },
-  { label: '8 Directions', section_id: 'directions', sort_order: 3, visible: true },
-  { label: '5 Elements', section_id: 'elements', sort_order: 4, visible: true },
-  { label: 'Sacred Store', section_id: 'products', sort_order: 5, visible: true },
-  { label: 'Method', section_id: 'method', sort_order: 6, visible: true },
-  { label: 'Journal', section_id: 'journal', sort_order: 7, visible: true },
-  { label: 'About', section_id: 'about', sort_order: 8, visible: true },
+  { label: 'Home', section_id: '/', sort_order: 1, visible: true },
+  { label: 'Consultations', section_id: '/consultations', sort_order: 2, visible: true },
+  { label: '5 Elements & Directions', section_id: '/elements', sort_order: 3, visible: true },
+  { label: 'Sacred Store', section_id: '/shop', sort_order: 4, visible: true },
+  { label: 'Energy Scanner', section_id: '/scanner', sort_order: 5, visible: true },
+  { label: 'About & Method', section_id: '/about', sort_order: 6, visible: true },
+  { label: 'Journal', section_id: '/journal', sort_order: 7, visible: true },
 ];
 
 export const DEFAULT_MARQUEE = [

@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'textarea' | 'number' | 'boolean' | 'image' | 'list' | 'select';
+export type FieldType = 'text' | 'textarea' | 'number' | 'boolean' | 'image' | 'list' | 'select' | 'color';
 
 export interface FieldConfig {
   key: string;
@@ -34,7 +34,7 @@ export const COLLECTIONS: CollectionConfig[] = [
       { key: 'image', label: 'Image', type: 'image' },
       { key: 'category', label: 'Category', type: 'select', options: ['Wealth & Prosperity', 'Meditation & Clarity', 'Sacred Geometry', 'Ritual & Purification', 'Spiritual Protection'] },
       { key: 'element', label: 'Element', type: 'text' },
-      { key: 'element_color', label: 'Element color', type: 'text' },
+      { key: 'element_color', label: 'Element color', type: 'color' },
       { key: 'description', label: 'Description', type: 'textarea' },
       { key: 'symbolism', label: 'Symbolism (one per line)', type: 'list' },
       { key: 'quote', label: 'Quote', type: 'textarea' },
@@ -65,7 +65,7 @@ export const COLLECTIONS: CollectionConfig[] = [
       { key: 'duration', label: 'Duration', type: 'text' },
       { key: 'format', label: 'Format', type: 'select', options: ['Online Video / CAD', 'On-Site Visit', 'Hybrid'] },
       { key: 'image', label: 'Image', type: 'image' },
-      { key: 'color_hex', label: 'Color', type: 'text' },
+      { key: 'color_hex', label: 'Color', type: 'color' },
       { key: 'deliverables', label: 'Deliverables (one per line)', type: 'list' },
       { key: 'suitable_for', label: 'Suitable for (one per line)', type: 'list' },
       { key: 'sort_order', label: 'Sort order', type: 'number' },
@@ -125,7 +125,7 @@ export const COLLECTIONS: CollectionConfig[] = [
       { key: 'ruling_deity', label: 'Ruling deity', type: 'text' },
       { key: 'ruling_planet', label: 'Ruling planet', type: 'text' },
       { key: 'element', label: 'Element', type: 'text' },
-      { key: 'color_hex', label: 'Color', type: 'text' },
+      { key: 'color_hex', label: 'Color', type: 'color' },
       { key: 'bg_gradient', label: 'Background gradient class', type: 'text' },
       { key: 'key_benefits', label: 'Key benefits', type: 'textarea' },
       { key: 'ideal_for', label: 'Ideal for (one per line)', type: 'list' },
@@ -147,8 +147,8 @@ export const COLLECTIONS: CollectionConfig[] = [
       { key: 'name', label: 'Name', type: 'text', required: true },
       { key: 'sanskrit_name', label: 'Sanskrit name', type: 'text' },
       { key: 'zone', label: 'Zone', type: 'text' },
-      { key: 'color_hex', label: 'Color', type: 'text' },
-      { key: 'bg_light', label: 'Light background', type: 'text' },
+      { key: 'color_hex', label: 'Color', type: 'color' },
+      { key: 'bg_light', label: 'Light background', type: 'color' },
       { key: 'description', label: 'Description', type: 'textarea' },
       { key: 'qualities', label: 'Qualities (one per line)', type: 'list' },
       { key: 'imbalance_signs', label: 'Imbalance signs', type: 'textarea' },
@@ -168,7 +168,7 @@ export const COLLECTIONS: CollectionConfig[] = [
       { key: 'step', label: 'Step number', type: 'text', required: true },
       { key: 'title', label: 'Title', type: 'text', required: true },
       { key: 'sanskrit_tag', label: 'Sanskrit tag', type: 'text' },
-      { key: 'color_hex', label: 'Color', type: 'text' },
+      { key: 'color_hex', label: 'Color', type: 'color' },
       { key: 'description', label: 'Description', type: 'textarea' },
       { key: 'sort_order', label: 'Sort order', type: 'number' },
       { key: 'published', label: 'Published', type: 'boolean' },

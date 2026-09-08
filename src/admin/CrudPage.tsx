@@ -228,6 +228,30 @@ export function CrudPage({ config }: { config: CollectionConfig }) {
                         <option key={opt}>{opt}</option>
                       ))}
                     </select>
+                  ) : field.type === 'color' ? (
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-vastu-muted mb-1">{field.label}</label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="color"
+                          value={String(fieldValue(editing, field) || '#C5A059').startsWith('#') && String(fieldValue(editing, field) || '#C5A059').length === 7 ? String(fieldValue(editing, field)) : '#C5A059'}
+                          onChange={(e) => setEditing(applyField(editing, field, e.target.value))}
+                          className="w-9 h-8 p-0.5 border border-vastu-border rounded cursor-pointer bg-white"
+                        />
+                        <input
+                          type="text"
+                          placeholder="#RRGGBB"
+                          value={String(fieldValue(editing, field) ?? '')}
+                          onChange={(e) => setEditing(applyField(editing, field, e.target.value))}
+                          className="flex-1 border border-vastu-border rounded px-3 py-2 text-xs font-mono"
+                        />
+                        <div
+                          className="w-8 h-8 rounded border border-vastu-border shadow-inner flex-shrink-0"
+                          style={{ backgroundColor: String(fieldValue(editing, field) || 'transparent') }}
+                          title="Color Swatch Preview"
+                        />
+                      </div>
+                    </div>
                   ) : field.type !== 'image' && field.type !== 'boolean' ? (
                     <input
                       type={field.type === 'number' ? 'number' : 'text'}
