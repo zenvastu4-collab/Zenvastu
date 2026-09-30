@@ -60,7 +60,7 @@ export function Navbar({
         {/* Subtle Gold Shimmer Line at Top */}
         <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C5A059]/60 to-transparent" />
 
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto flex items-center justify-between gap-4">
           {/* Left: Vedic Sanskrit Invocation & Philosophy */}
           <div className="flex items-center gap-2.5 truncate">
             <span className="font-serif italic text-vastu-gold text-xs hidden md:inline tracking-wider">
@@ -116,28 +116,25 @@ export function Navbar({
             : 'bg-[#FAF7F2] border-b border-[#E8E1D3]'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20 gap-3 sm:gap-4">
+        <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20 gap-4">
             {/* Brand Logo */}
             <button
               onClick={() => handleNavClick('hero')}
-              className="flex items-center gap-2.5 sm:gap-3 group text-left flex-shrink-0"
+              className="flex items-center group text-left flex-shrink-0"
             >
-              <BrandLogo imgClassName="h-9 sm:h-10 xl:h-11 w-auto max-w-[170px] sm:max-w-[210px] group-hover:opacity-90 transition-opacity" />
-              <span className="hidden 2xl:block text-[9px] tracking-[0.28em] uppercase font-sans text-vastu-terracotta font-medium leading-tight max-w-[9rem]">
-                {settings.brand_tagline}
-              </span>
+              <BrandLogo imgClassName="h-9 sm:h-10 xl:h-11 w-auto max-w-[200px] sm:max-w-[240px] group-hover:opacity-90 transition-opacity" />
             </button>
 
             {/* Desktop Navigation Links (Visible on xl screens: 1280px+) */}
-            <nav className="hidden xl:flex items-center justify-center gap-3.5 2xl:gap-6 flex-1 mx-2 2xl:mx-4 min-w-0">
+            <nav className="hidden xl:flex items-center gap-3.5 2xl:gap-6 flex-shrink-0">
               {navItems.map((item) => {
                 const active = isItemActive(item.section_id);
                 return (
                   <button
                     key={item.section_id}
                     onClick={() => handleNavClick(item.section_id)}
-                    className={`text-[12px] 2xl:text-[13px] font-sans tracking-wide whitespace-nowrap transition-all py-1.5 relative group ${
+                    className={`text-[12.5px] 2xl:text-[13.5px] font-sans tracking-wide whitespace-nowrap transition-all py-1.5 relative group ${
                       active
                         ? 'text-[#1B382B] font-semibold after:content-[""] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
                         : 'text-vastu-muted hover:text-[#1B382B]'
@@ -170,7 +167,7 @@ export function Navbar({
             </nav>
 
             {/* Right Action Icons & Booking CTA */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0">
               {/* User Account */}
               <button
                 onClick={onOpenAccount}
