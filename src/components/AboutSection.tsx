@@ -89,6 +89,22 @@ export function AboutSection({ onOpenBooking }: AboutSectionProps) {
               })}
             </div>
 
+            {/* Corporate Heritage & Legal Declaration Badge */}
+            <div className="p-4 bg-white/90 rounded border-l-4 border-vastu-gold border-vastu-border text-xs text-vastu-muted font-sans flex items-start gap-3 shadow-sm">
+              <Sparkles className="w-4 h-4 text-vastu-gold flex-shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <span className="font-semibold text-vastu-forest uppercase tracking-wider text-[11px] block">
+                  Corporate Division & Policy Governance
+                </span>
+                <p className="text-vastu-charcoal font-medium">
+                  <strong>Zen Vastu</strong> operates under the corporate governance of <strong>SRV RESEARCH & LIFE SCIENCES PVT LTD</strong>.
+                </p>
+                <p className="text-[11px] text-vastu-muted leading-relaxed">
+                  All Terms & Conditions, Privacy Policy, Refund/Cancellation Policy, and other applicable policies of this website shall be governed by and applicable to <strong className="text-vastu-forest">SRV RESEARCH & LIFE SCIENCES PVT LTD</strong>.
+                </p>
+              </div>
+            </div>
+
             <div className="pt-2 flex items-center gap-4">
               <button
                 onClick={onOpenBooking}

@@ -1,13 +1,14 @@
-import { Mail, Phone, MapPin, MessageCircle, Sparkles, ArrowRight } from 'lucide-react';
+import { Mail, Phone, MapPin, MessageCircle, Sparkles, ArrowRight, Building2 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { useCms } from '../context/CmsProvider';
 
 interface FooterProps {
   onNavigate: (sectionId: string) => void;
   onOpenBooking: () => void;
+  onOpenPolicy?: (tab: 'governance' | 'terms' | 'privacy' | 'refund' | 'shipping') => void;
 }
 
-export function Footer({ onNavigate, onOpenBooking }: FooterProps) {
+export function Footer({ onNavigate, onOpenBooking, onOpenPolicy }: FooterProps) {
   const { copy, settings, footerLinks, waUrl } = useCms();
   const explore = footerLinks.filter((l) => l.group_name === 'Explore');
   const consults = footerLinks.filter((l) => l.group_name === 'Consultations');
@@ -134,7 +135,58 @@ export function Footer({ onNavigate, onOpenBooking }: FooterProps) {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#E8E1D3]/60 font-sans">
+        {/* Corporate Governance & Legal Compliance Notice */}
+        <div className="mt-10 p-4 sm:p-5 rounded-sm bg-gradient-to-r from-white/[0.04] via-white/[0.08] to-white/[0.04] border border-[#C5A059]/30 text-xs text-[#E8E1D3]/85 font-sans">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="space-y-1.5 max-w-4xl">
+              <div className="flex items-center gap-2 text-vastu-gold text-[11px] uppercase tracking-wider font-semibold">
+                <Building2 className="w-3.5 h-3.5 text-vastu-gold flex-shrink-0" />
+                <span>Legal & Corporate Governance Declaration</span>
+              </div>
+              <p className="text-[12.5px] leading-relaxed text-[#FAF7F2] font-medium">
+                <strong>Company Name:</strong> <span className="text-vastu-gold">SRV RESEARCH & LIFE SCIENCES PVT LTD</span>
+              </p>
+              <p className="text-[11.5px] leading-relaxed text-[#E8E1D3]/80">
+                All Terms & Conditions, Privacy Policy, Refund/Cancellation Policy, and other applicable policies of this website shall be governed by and applicable to <strong className="text-[#FAF7F2] font-semibold">SRV RESEARCH & LIFE SCIENCES PVT LTD</strong>.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] shrink-0 border-t lg:border-t-0 lg:border-l border-white/10 pt-3 lg:pt-0 lg:pl-5">
+              <button
+                type="button"
+                onClick={() => onOpenPolicy?.('terms')}
+                className="text-vastu-gold hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                Terms & Conditions
+              </button>
+              <span className="text-white/30">•</span>
+              <button
+                type="button"
+                onClick={() => onOpenPolicy?.('privacy')}
+                className="text-vastu-gold hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                Privacy Policy
+              </button>
+              <span className="text-white/30">•</span>
+              <button
+                type="button"
+                onClick={() => onOpenPolicy?.('refund')}
+                className="text-vastu-gold hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                Refund Policy
+              </button>
+              <span className="text-white/30">•</span>
+              <button
+                type="button"
+                onClick={() => onOpenPolicy?.('governance')}
+                className="text-vastu-gold hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                Company Details
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#E8E1D3]/60 font-sans">
           <div className="flex items-center gap-2">
             <span>Elemental Harmony:</span>
             <div className="flex gap-1.5">
@@ -145,8 +197,13 @@ export function Footer({ onNavigate, onOpenBooking }: FooterProps) {
               <span className="w-4 h-1.5 rounded-full bg-[#C5A059]" title="Akash (Space)" />
             </div>
           </div>
-          <div>
-            © {new Date().getFullYear()} {copy('footer.copyright', 'Zen Vastu. All Rights Reserved. Sacred Architecture & Living.')}
+          <div className="text-center sm:text-right space-y-0.5">
+            <div>
+              © {new Date().getFullYear()} {copy('footer.copyright', 'Zen Vastu. All Rights Reserved. Sacred Architecture & Living.')}
+            </div>
+            <div className="text-[10px] text-[#C5A059]/60 tracking-wider uppercase font-sans">
+              A Venture of SRV Research & Life Sciences Pvt Ltd
+            </div>
           </div>
         </div>
       </div>

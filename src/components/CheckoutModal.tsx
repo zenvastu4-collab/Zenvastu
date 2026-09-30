@@ -3,7 +3,7 @@ import { X, Check, ShieldCheck, CreditCard, Smartphone, Truck, Sparkles, Shoppin
 import { type CartItem } from './CartDrawer';
 import { supabase } from '../lib/supabase';
 import { useCms } from '../context/CmsProvider';
-import { openRazorpayCheckout } from '../lib/razorpay';
+import { createCashfreeOrder, openCashfreeCheckout } from '../lib/cashfree';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -29,8 +29,8 @@ export function CheckoutModal({
     pincode: '',
   });
 
-  const [paymentMethod, setPaymentMethod] = useState<'razorpay_upi' | 'razorpay_card' | 'cod'>(
-    'razorpay_upi'
+  const [paymentMethod, setPaymentMethod] = useState<'cashfree_upi' | 'cashfree_card' | 'cod'>(
+    'cashfree_upi'
   );
   const [couponCode, setCouponCode] = useState<string>('');
   const [appliedDiscount, setAppliedDiscount] = useState<number>(0);
@@ -67,10 +67,10 @@ export function CheckoutModal({
     setSubmitError('');
 
     const paymentLabel =
-      paymentMethod === 'razorpay_upi'
-        ? 'Razorpay UPI (Instant)'
-        : paymentMethod === 'razorpay_card'
-        ? 'Razorpay Card / NetBanking'
+      paymentMethod === 'cashfree_upi'
+        ? 'Cashfree UPI (Instant)'
+        : paymentMethod === 'cashfree_card'
+        ? 'Cashfree Card / NetBanking'
         : 'Cash on Delivery';
 
     const fallbackRef = `ZV-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -145,7 +145,7 @@ export function CheckoutModal({
       return;
     }
 
-    // 2. Razorpay Live Online Payment (UPI / Card / NetBanking)
+    // 2. Cashfree Live Online Payment (UPI / Card / NetBanking)
     try {
       // Record pending order in database first
       if (supabase) {
@@ -191,48 +191,36 @@ export function CheckoutModal({
         }
       }
 
-      // Trigger Razorpay Live Checkout modal
-      const rzpResponse = await openRazorpayCheckout({
-        amount: grandTotal * 100, // Amount in paise
-        currency: 'INR',
-        name: 'Zen Vastu',
-        description: `Sacred Vedic Order #${orderRef}`,
-        prefill: {
-          name: formData.name,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        notes: {
-          order_ref: orderRef,
-          order_id: orderId,
-          city: formData.city,
-        },
+      // Step 1: Create Cashfree order via Supabase Edge Function
+      const cfOrder = await createCashfreeOrder({
+        orderId,
+        orderRef,
+        amount: grandTotal,
+        customerName: formData.name,
+        customerEmail: formData.email,
+        customerPhone: formData.phone,
       });
 
-      // Payment successful! Update Supabase status and transaction ref
-      if (supabase) {
-        const updatePayload: Record<string, any> = {
-          payment_status: 'paid',
-          status: 'processing',
-        };
-        // If the table supports razorpay columns, add them
-        updatePayload.razorpay_payment_id = rzpResponse.razorpay_payment_id;
-        if (rzpResponse.razorpay_order_id) {
-          updatePayload.razorpay_order_id = rzpResponse.razorpay_order_id;
-        }
-        if (rzpResponse.razorpay_signature) {
-          updatePayload.razorpay_signature = rzpResponse.razorpay_signature;
-        }
+      // Step 2: Open Cashfree drop-in checkout
+      await openCashfreeCheckout({
+        paymentSessionId: cfOrder.paymentSessionId,
+      });
 
+      // Payment successful! Update Supabase status
+      if (supabase) {
         await supabase
           .from('orders')
-          .update(updatePayload)
+          .update({
+            payment_status: 'paid',
+            status: 'processing',
+            cashfree_order_id: cfOrder.cfOrderId,
+          })
           .eq('id', orderId);
       }
 
       const order = {
         orderId: orderRef,
-        paymentId: rzpResponse.razorpay_payment_id,
+        paymentId: cfOrder.cfOrderId,
         date: new Date().toLocaleDateString('en-IN', {
           day: '2-digit',
           month: 'short',
@@ -329,7 +317,7 @@ export function CheckoutModal({
                     </span>
                     {placedOrder.paymentId && (
                       <span className="text-[10px] text-vastu-muted font-mono block">
-                        Razorpay Txn: {placedOrder.paymentId}
+                        Cashfree Txn: {placedOrder.paymentId}
                       </span>
                     )}
                   </div>
@@ -484,27 +472,27 @@ export function CheckoutModal({
                     <div className="space-y-2">
                       <label
                         className={`flex items-center justify-between p-2.5 sm:p-3 rounded border cursor-pointer text-xs font-sans transition-all ${
-                          paymentMethod === 'razorpay_upi'
+                          paymentMethod === 'cashfree_upi'
                             ? 'bg-vastu-forest text-vastu-ivory border-vastu-gold font-semibold shadow-sm'
                             : 'bg-vastu-ivory hover:bg-vastu-cream text-vastu-charcoal border-vastu-border'
                         }`}
                       >
                         <div className="flex items-center gap-2.5 min-w-0 pr-2">
                           <Smartphone className="w-4 h-4 text-vastu-gold shrink-0" />
-                          <span className="truncate">Razorpay UPI (Google Pay, PhonePe, Paytm, BHIM)</span>
+                          <span className="truncate">UPI (Google Pay, PhonePe, Paytm, BHIM)</span>
                         </div>
                         <input
                           type="radio"
                           name="paymentMethod"
-                          checked={paymentMethod === 'razorpay_upi'}
-                          onChange={() => setPaymentMethod('razorpay_upi')}
+                          checked={paymentMethod === 'cashfree_upi'}
+                          onChange={() => setPaymentMethod('cashfree_upi')}
                           className="accent-vastu-gold shrink-0"
                         />
                       </label>
 
                       <label
                         className={`flex items-center justify-between p-2.5 sm:p-3 rounded border cursor-pointer text-xs font-sans transition-all ${
-                          paymentMethod === 'razorpay_card'
+                          paymentMethod === 'cashfree_card'
                             ? 'bg-vastu-forest text-vastu-ivory border-vastu-gold font-semibold shadow-sm'
                             : 'bg-vastu-ivory hover:bg-vastu-cream text-vastu-charcoal border-vastu-border'
                         }`}
@@ -516,8 +504,8 @@ export function CheckoutModal({
                         <input
                           type="radio"
                           name="paymentMethod"
-                          checked={paymentMethod === 'razorpay_card'}
-                          onChange={() => setPaymentMethod('razorpay_card')}
+                          checked={paymentMethod === 'cashfree_card'}
+                          onChange={() => setPaymentMethod('cashfree_card')}
                           className="accent-vastu-gold shrink-0"
                         />
                       </label>
@@ -642,7 +630,7 @@ export function CheckoutModal({
                     className="w-full bg-vastu-gold hover:bg-vastu-goldLight text-vastu-forestDark py-3 px-4 rounded-sm text-xs font-sans font-bold uppercase tracking-wider shadow-vastu flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
                   >
                     {isProcessing ? (
-                      <span>Opening Secure Razorpay Portal...</span>
+                      <span>Opening Secure Payment Portal...</span>
                     ) : paymentMethod === 'cod' ? (
                       <>
                         <Truck className="w-4 h-4 shrink-0" />
@@ -651,10 +639,14 @@ export function CheckoutModal({
                     ) : (
                       <>
                         <ShieldCheck className="w-4 h-4 shrink-0" />
-                        <span>Pay ₹{grandTotal.toLocaleString('en-IN')} via Razorpay</span>
+                        <span>Pay ₹{grandTotal.toLocaleString('en-IN')} Securely</span>
                       </>
                     )}
                   </button>
+
+                  <p className="text-[10px] text-vastu-muted text-center leading-relaxed">
+                    Orders & payments are processed under the governance and terms of <strong className="text-vastu-forest font-medium">SRV RESEARCH & LIFE SCIENCES PVT LTD</strong>.
+                  </p>
                 </div>
               </div>
             </form>

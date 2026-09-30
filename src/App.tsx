@@ -8,6 +8,7 @@ import { CartDrawer, type CartItem } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { AccountModal } from './components/AccountModal';
 import { Footer } from './components/Footer';
+import { PolicyModal, type PolicyTab } from './components/PolicyModal';
 import { type Product } from './data/vastuData';
 import { ShoppingBag, MessageCircle } from 'lucide-react';
 import { useCms } from './context/CmsProvider';
@@ -62,7 +63,14 @@ export default function App() {
   const [bookingServiceSlug, setBookingServiceSlug] = useState<string | undefined>(undefined);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
   const [isAccountOpen, setIsAccountOpen] = useState<boolean>(false);
+  const [isPolicyOpen, setIsPolicyOpen] = useState<boolean>(false);
+  const [activePolicyTab, setActivePolicyTab] = useState<PolicyTab>('governance');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handleOpenPolicy = (tab: PolicyTab = 'governance') => {
+    setActivePolicyTab(tab);
+    setIsPolicyOpen(true);
+  };
 
   // Placed Orders
   const [userOrders, setUserOrders] = useState<any[]>([]);
@@ -231,6 +239,7 @@ export default function App() {
       <Footer
         onNavigate={handleNavigate}
         onOpenBooking={() => handleOpenBooking()}
+        onOpenPolicy={handleOpenPolicy}
       />
 
       {/* Floating Action Buttons */}
@@ -297,6 +306,12 @@ export default function App() {
         isOpen={isAccountOpen}
         onClose={() => setIsAccountOpen(false)}
         userOrders={userOrders}
+      />
+
+      <PolicyModal
+        isOpen={isPolicyOpen}
+        onClose={() => setIsPolicyOpen(false)}
+        initialTab={activePolicyTab}
       />
     </div>
   );

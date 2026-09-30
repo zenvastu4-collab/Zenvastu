@@ -18,6 +18,25 @@ export function Hero({ onOpenBooking, onExploreDirections, onExploreProducts }: 
 
   return (
     <section id="hero" className="relative overflow-hidden bg-[#FAF7F2] border-b border-vastu-border">
+      {/* Parent Company Attribution Badge */}
+      <div className="relative bg-gradient-to-r from-[#0D1B13] via-[#14291D] to-[#0D1B13] py-2 px-4 sm:px-6 overflow-hidden">
+        {/* Subtle gold shimmer lines */}
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C5A059]/50 to-transparent" />
+        <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C5A059]/30 to-transparent" />
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-3">
+          <span className="hidden sm:inline-block w-8 h-[1px] bg-gradient-to-r from-transparent to-[#C5A059]/50" />
+          <div className="flex items-center gap-2.5 text-center">
+            <span className="text-[10px] sm:text-[11px] tracking-[0.2em] uppercase font-sans text-[#C5A059]/70 font-medium whitespace-nowrap">
+              A Venture of
+            </span>
+            <span className="text-[10px] sm:text-[11px] tracking-[0.15em] uppercase font-serif text-[#FAF7F2] font-semibold whitespace-nowrap">
+              SRV Research & Life Sciences Pvt Ltd
+            </span>
+          </div>
+          <span className="hidden sm:inline-block w-8 h-[1px] bg-gradient-to-l from-transparent to-[#C5A059]/50" />
+        </div>
+      </div>
+
       {/* Hero Banner with Sunlit Architectural Photography & Parallax Depth */}
       <div className="relative min-h-[600px] lg:min-h-[680px] flex items-center">
         {/* Background Image with Ambient Zoom */}
