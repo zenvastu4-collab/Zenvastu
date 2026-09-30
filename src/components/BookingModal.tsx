@@ -366,7 +366,7 @@ export function BookingModal({ isOpen, onClose, initialServiceSlug }: BookingMod
                       type="submit"
                       className="bg-vastu-gold hover:bg-vastu-goldLight text-vastu-forestDark px-8 py-3 rounded-sm text-xs font-sans font-bold uppercase tracking-wider shadow-vastu flex items-center gap-2"
                     >
-                      <span>Confirm & Book Consultation</span>
+                      <span>Confirm & Book Consultant</span>
                       <Check className="w-4 h-4" />
                     </button>
                   </div>

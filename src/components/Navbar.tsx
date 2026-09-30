@@ -117,33 +117,50 @@ export function Navbar({
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20 gap-4">
+          <div className="flex items-center justify-between h-20 gap-3 sm:gap-4">
             {/* Brand Logo */}
             <button
               onClick={() => handleNavClick('hero')}
-              className="flex items-center gap-3 group text-left flex-shrink-0"
+              className="flex items-center gap-2.5 sm:gap-3 group text-left flex-shrink-0"
             >
-              <BrandLogo imgClassName="h-10 sm:h-11 w-auto max-w-[220px] group-hover:opacity-90 transition-opacity" />
-              <span className="hidden xl:block text-[9px] tracking-[0.28em] uppercase font-sans text-vastu-terracotta font-medium leading-tight max-w-[9rem]">
+              <BrandLogo imgClassName="h-9 sm:h-10 xl:h-11 w-auto max-w-[170px] sm:max-w-[210px] group-hover:opacity-90 transition-opacity" />
+              <span className="hidden 2xl:block text-[9px] tracking-[0.28em] uppercase font-sans text-vastu-terracotta font-medium leading-tight max-w-[9rem]">
                 {settings.brand_tagline}
               </span>
             </button>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center justify-center gap-5 xl:gap-7 flex-1 mx-4">
+            {/* Desktop Navigation Links (Visible on xl screens: 1280px+) */}
+            <nav className="hidden xl:flex items-center justify-center gap-3.5 2xl:gap-6 flex-1 mx-2 2xl:mx-4 min-w-0">
               {navItems.map((item) => {
                 const active = isItemActive(item.section_id);
                 return (
                   <button
                     key={item.section_id}
                     onClick={() => handleNavClick(item.section_id)}
-                    className={`text-[13px] font-sans tracking-wide whitespace-nowrap transition-all py-1.5 relative group ${
+                    className={`text-[12px] 2xl:text-[13px] font-sans tracking-wide whitespace-nowrap transition-all py-1.5 relative group ${
                       active
                         ? 'text-[#1B382B] font-semibold after:content-[""] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[2px] after:bg-[#C5A059]'
                         : 'text-vastu-muted hover:text-[#1B382B]'
                     }`}
                   >
-                    <span>{item.label}</span>
+                    {item.label === '5 Elements & Directions' ? (
+                      <>
+                        <span className="hidden 2xl:inline">{item.label}</span>
+                        <span className="2xl:hidden">5 Elements</span>
+                      </>
+                    ) : item.label === 'About & Method' ? (
+                      <>
+                        <span className="hidden 2xl:inline">{item.label}</span>
+                        <span className="2xl:hidden">About</span>
+                      </>
+                    ) : item.label === 'Energy Scanner' ? (
+                      <>
+                        <span className="hidden 2xl:inline">{item.label}</span>
+                        <span className="2xl:hidden">Scanner</span>
+                      </>
+                    ) : (
+                      <span>{item.label}</span>
+                    )}
                     {!active && (
                       <span className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#C5A059]/40 scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
                     )}
@@ -153,11 +170,11 @@ export function Navbar({
             </nav>
 
             {/* Right Action Icons & Booking CTA */}
-            <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               {/* User Account */}
               <button
                 onClick={onOpenAccount}
-                className="p-2 text-[#1B382B] hover:text-[#C5A059] transition-colors rounded-full hover:bg-black/5"
+                className="hidden sm:flex p-1.5 sm:p-2 text-[#1B382B] hover:text-[#C5A059] transition-colors rounded-full hover:bg-black/5"
                 title="Customer Account"
               >
                 <User className="w-5 h-5 stroke-[1.75]" />
@@ -166,7 +183,7 @@ export function Navbar({
               {/* Cart Drawer Trigger */}
               <button
                 onClick={onOpenCart}
-                className="p-2 text-[#1B382B] hover:text-[#C5A059] transition-colors relative rounded-full hover:bg-black/5"
+                className="p-1.5 sm:p-2 text-[#1B382B] hover:text-[#C5A059] transition-colors relative rounded-full hover:bg-black/5"
                 title="Shopping Cart"
               >
                 <ShoppingBag className="w-5 h-5 stroke-[1.75]" />
@@ -177,18 +194,18 @@ export function Navbar({
                 )}
               </button>
 
-              {/* Book Consultation CTA Button */}
+              {/* Book Consultant CTA Button */}
               <button
                 onClick={onOpenBooking}
-                className="inline-flex items-center justify-center bg-gradient-to-r from-[#1B382B] to-[#12261D] hover:from-[#12261D] hover:to-[#0D1B13] text-white px-5 py-2.5 rounded-sm text-xs uppercase tracking-wider font-semibold shadow-sm hover:shadow transition-all border border-[#C5A059]/40 hover:border-[#C5A059] whitespace-nowrap"
+                className="inline-flex items-center justify-center bg-gradient-to-r from-[#1B382B] to-[#12261D] hover:from-[#12261D] hover:to-[#0D1B13] text-white px-3 sm:px-4 2xl:px-5 py-2 sm:py-2.5 rounded-sm text-xs uppercase tracking-wider font-semibold shadow-sm hover:shadow transition-all border border-[#C5A059]/40 hover:border-[#C5A059] whitespace-nowrap"
               >
-                <span>{copy('nav.book_cta', 'Book Consultation')}</span>
+                <span>{copy('nav.book_cta', 'Book Consultant')}</span>
               </button>
 
-              {/* Mobile Menu Toggle */}
+              {/* Mobile / Tablet Menu Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded text-[#1B382B] hover:bg-black/5"
+                className="xl:hidden p-2 rounded text-[#1B382B] hover:bg-black/5"
                 aria-label="Toggle navigation menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -197,9 +214,9 @@ export function Navbar({
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile / Tablet Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#FAF7F2] border-b border-[#DED7C9] px-6 py-6 space-y-4 shadow-xl animate-fadeIn">
+          <div className="xl:hidden bg-[#FAF7F2] border-b border-[#DED7C9] px-6 py-6 space-y-4 shadow-xl animate-fadeIn">
             <div className="flex flex-col space-y-2">
               {navItems.map((item) => {
                 const active = isItemActive(item.section_id);
@@ -227,7 +244,7 @@ export function Navbar({
                 }}
                 className="w-full bg-[#1B382B] text-white py-3 rounded-sm text-xs uppercase tracking-wider font-semibold shadow-sm text-center border border-[#C5A059]/40"
               >
-                Book a Consultation
+                Book Consultant
               </button>
               <div className="flex items-center justify-between text-xs text-vastu-muted pt-1">
                 <button onClick={onOpenAccount} className="hover:text-vastu-forest">

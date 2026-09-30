@@ -142,7 +142,7 @@ export function MethodologySection({ onOpenBooking }: MethodologySectionProps) {
               onClick={onOpenBooking}
               className="bg-vastu-gold hover:bg-vastu-goldLight text-vastu-forestDark px-6 py-2.5 rounded-sm text-xs font-sans font-bold uppercase tracking-wider shadow-sm transition-all flex items-center gap-2 flex-shrink-0"
             >
-              <span>Schedule Audit</span>
+              <span>Book Consultant</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

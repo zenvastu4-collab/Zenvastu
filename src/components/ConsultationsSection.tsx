@@ -194,7 +194,7 @@ export function ConsultationsSection({ onOpenBooking }: ConsultationsSectionProp
                   className="bg-[#2D4536] hover:bg-[#1E3326] text-white px-6 py-3 rounded-sm text-xs font-sans font-semibold uppercase tracking-wider shadow-sm transition-all flex items-center gap-2"
                 >
                   <Compass className="w-4 h-4 text-vastu-gold" />
-                  <span>Book This Consultation</span>
+                  <span>Book Consultant</span>
                 </button>
               </div>
             </div>

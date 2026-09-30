@@ -103,7 +103,7 @@ export function Hero({ onOpenBooking, onExploreDirections, onExploreProducts }: 
                   onClick={onOpenBooking}
                   className="inline-flex items-center gap-2 bg-gradient-to-r from-[#2D4536] to-[#1E3326] hover:from-[#1E3326] hover:to-[#122218] text-white px-7 py-3.5 rounded-sm text-xs sm:text-sm uppercase tracking-wider font-semibold shadow-md transition-all border border-vastu-gold/40 hover:border-vastu-gold"
                 >
-                  <span>{copy('hero.cta_primary', 'Book a Consultation')}</span>
+                  <span>{copy('hero.cta_primary', 'Book Consultant')}</span>
                   <ArrowRight className="w-4 h-4 text-vastu-gold" />
                 </motion.button>
 

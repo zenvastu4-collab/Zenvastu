@@ -106,7 +106,7 @@ export function HomePage({
                       onClick={() => onOpenBooking(service.slug)}
                       className="bg-vastu-forest hover:bg-vastu-forestLight text-white px-4 py-2 rounded-sm text-xs uppercase font-bold tracking-wider transition-colors"
                     >
-                      Book Audit
+                      Book Consultant
                     </button>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ export function HomePage({
                   onClick={() => onOpenBooking()}
                   className="border border-[#C5A059]/50 hover:border-vastu-gold hover:bg-white/5 text-white px-6 py-3.5 rounded-sm text-xs uppercase tracking-wider font-medium transition-all cursor-pointer"
                 >
-                  Schedule Your Audit
+                  Book Consultant
                 </button>
               </div>
             </div>
